@@ -26,7 +26,12 @@
         placeholder="Parol"
         v-model="inputParol"
       />
-      <button class="success add-btn" style="padding: 2px" @click="addNewUser">
+      <button
+        :class="{ success: !message }"
+        class="add-btn"
+        style="padding: 2px"
+        @click="addNewUser"
+      >
         Qo'shish
       </button>
     </div>
@@ -51,7 +56,7 @@
           <td>{{ user.parol }}</td>
           <td>
             <button class="delete" @click="deleteUser(index)">delete</button>
-            <button class="edit" @click="editUser(index)">edit</button>
+            <button class="edit" @click="editUser(user)">edit</button>
           </td>
         </tr>
       </table>
@@ -59,8 +64,6 @@
   </div>
 </template>
 <script>
-import { breaking } from "vuetify/lib/util/console";
-
 export default {
   data() {
     return {
@@ -83,20 +86,16 @@ export default {
   },
   methods: {
     addNewUser() {
-      const btn = document.querySelector(".add-btn");
       if (
         this.inputName == "" ||
         this.inputLogin == "" ||
         this.inputTel == "" ||
         this.inputParol == ""
       ) {
-        btn.classList.remove("success");
         this.message = "Barcha inputlar toldirilishi shart";
       } else if (this.inputParol.length < 8) {
-        btn.classList.remove("success");
         this.message = "Parol 8ta belgidan kam bolmasligi kerak";
       } else {
-        btn.classList.add("success");
         this.message = "";
         const indexUser = this.users.findIndex(
           (user) => user.id === this.userId
@@ -121,12 +120,11 @@ export default {
               tel: this.inputTel,
               parol: this.inputParol,
             });
-            (this.inputName = ""),
-              (this.inputLogin = ""),
-              (this.inputTel = ""),
-              (this.inputParol = "");
+            this.inputName = "";
+            this.inputLogin = "";
+            this.inputTel = "";
+            this.inputParol = "";
           } else {
-            btn.classList.remove("success");
             this.message = "Ushbu raqam yoki login mavjud";
           }
         } else {
@@ -141,10 +139,10 @@ export default {
               tel: this.inputTel,
               parol: this.inputParol,
             });
-            (this.inputName = ""),
-              (this.inputLogin = ""),
-              (this.inputTel = ""),
-              (this.inputParol = "");
+            this.inputName = "";
+            this.inputLogin = "";
+            this.inputTel = "";
+            this.inputParol = "";
           } else if (
             uniqueLogin.length > 0 &&
             uniqueLogin[0].id === this.userId
@@ -156,10 +154,10 @@ export default {
               tel: this.inputTel,
               parol: this.inputParol,
             });
-            (this.inputName = ""),
-              (this.inputLogin = ""),
-              (this.inputTel = ""),
-              (this.inputParol = "");
+            this.inputName = "";
+            this.inputLogin = "";
+            this.inputTel = "";
+            this.inputParol = "";
           } else {
             this.message = "Ushbu login mavjud";
           }
@@ -169,12 +167,12 @@ export default {
     deleteUser(index) {
       this.users.splice(index, 1);
     },
-    editUser(index) {
-      this.userId = this.users[index].id;
-      this.inputName = this.users[index].name;
-      this.inputLogin = this.users[index].login;
-      this.inputTel = this.users[index].tel;
-      this.inputParol = this.users[index].parol;
+    editUser(user) {
+      this.userId = user.id;
+      this.inputName = user.name;
+      this.inputLogin = user.login;
+      this.inputTel = user.tel;
+      this.inputParol = user.parol;
     },
   },
 };
