@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Users from "@/views/users/users"
+import Landing from '@/views/landing/landing'
 
 Vue.use(VueRouter)
 
@@ -12,9 +12,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: "/users",
-    name: "Users",
-    component: Users
+    path: "/landing",
+    name: "Landing",
+    component: Landing
   },
   {
     path: '/about',
